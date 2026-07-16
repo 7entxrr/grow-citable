@@ -1114,12 +1114,95 @@ export default function SettingsPage() {
 
   return (
     <div className={styles.dashboardContainer} style={{ background: 'transparent' }}>
+      <style>{`
+        @media (max-width: 768px) {
+          .settings-modal-overlay {
+            padding: 0 !important;
+            align-items: flex-end !important;
+          }
+          .settings-modal-inner {
+            width: 100vw !important;
+            max-width: 100vw !important;
+            max-height: 92vh !important;
+            height: auto !important;
+            min-height: 70vh !important;
+            border-radius: 16px 16px 0 0 !important;
+            flex-direction: column !important;
+          }
+          .settings-nav-sidebar {
+            width: 100% !important;
+            border-right: none !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+            padding: 12px 10px !important;
+            flex-direction: row !important;
+            align-items: center !important;
+            gap: 8px !important;
+            overflow-x: auto !important;
+            -webkit-overflow-scrolling: touch !important;
+          }
+          .settings-close-btn {
+            margin-bottom: 0 !important;
+            flex-shrink: 0 !important;
+          }
+          .settings-tabs-list {
+            flex-direction: row !important;
+            gap: 4px !important;
+            flex: 1 !important;
+            overflow-x: auto !important;
+            -webkit-overflow-scrolling: touch !important;
+            padding: 2px 0 !important;
+          }
+          .settings-tab-btn {
+            white-space: nowrap !important;
+            font-size: 12px !important;
+            padding: 6px 10px !important;
+            width: auto !important;
+          }
+          .settings-content-area {
+            padding: 20px 16px !important;
+            flex: 1 !important;
+            overflow-y: auto !important;
+          }
+          .settings-content-area div[style*="grid-template-columns"][style*="150px"] {
+            grid-template-columns: 1fr 1fr !important;
+            gap: 8px !important;
+            padding: 10px 14px !important;
+          }
+          .settings-content-area div[style*="grid-template-columns"][style*="1fr 1fr 1.2fr"] {
+            grid-template-columns: 1fr !important;
+            gap: 12px !important;
+          }
+        }
+        @media (max-width: 640px) {
+          .settings-content-area {
+            padding: 16px 12px !important;
+          }
+          .settings-modal-inner {
+            max-height: 95vh !important;
+            min-height: 80vh !important;
+          }
+          .settings-content-area div[style*="grid-template-columns"][style*="150px"] {
+            grid-template-columns: 1fr !important;
+            gap: 6px !important;
+            padding: 8px 12px !important;
+          }
+          .settings-content-area div[style*="grid-template-columns"][style*="1fr 1fr 1.2fr"] {
+            grid-template-columns: 1fr !important;
+            gap: 8px !important;
+          }
+        }
+        @media (max-width: 480px) {
+          .settings-content-area {
+            padding: 12px 10px !important;
+          }
+        }
+      `}</style>
       <Sidebar />
       <main className={styles.mainContent}>
         <div className={styles.contentWrapper} />
       </main>
 
-      <div className="anthropic-theme" style={{
+      <div className="anthropic-theme settings-modal-overlay" style={{
         position: 'fixed',
         inset: 0,
         background: 'rgba(9, 10, 15, 0.20)',
@@ -1130,7 +1213,7 @@ export default function SettingsPage() {
         justifyContent: 'center',
         zIndex: 1000,
       }}>
-        <div style={{
+        <div className="settings-modal-inner" style={{
           background: BG_COLOR,
           borderRadius: '12px',
           width: '840px',
@@ -1143,7 +1226,7 @@ export default function SettingsPage() {
           boxShadow: '0 20px 50px rgba(25, 24, 22, 0.08)',
         }}>
           {/* Left Sidebar */}
-          <div style={{
+          <div className="settings-nav-sidebar" style={{
             width: '210px',
             borderRight: '1px solid rgba(255, 255, 255, 0.08)',
             background: '#111315',
@@ -1154,6 +1237,7 @@ export default function SettingsPage() {
           }}>
             <button
               onClick={() => router.back()}
+              className="settings-close-btn"
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -1182,7 +1266,7 @@ export default function SettingsPage() {
               <X size={14} />
             </button>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
+            <div className="settings-tabs-list" style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
               {tabs.map((tab) => {
                 const Icon = tab.icon;
                 const isActive = activeTab === tab.id;
@@ -1190,6 +1274,7 @@ export default function SettingsPage() {
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
+                    className={`settings-tab-btn ${isActive ? 'settings-tab-active' : ''}`}
                     style={{
                       display: 'flex',
                       alignItems: 'center',
@@ -1219,7 +1304,7 @@ export default function SettingsPage() {
           </div>
 
           {/* Right Content */}
-          <div style={{ flex: 1, padding: '32px 40px', overflowY: 'auto', background: BG_COLOR }}>
+          <div className="settings-content-area" style={{ flex: 1, padding: '32px 40px', overflowY: 'auto', background: BG_COLOR }}>
             {renderContent()}
           </div>
         </div>

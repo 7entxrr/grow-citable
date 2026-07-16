@@ -87,8 +87,10 @@ export default function Sidebar() {
   useEffect(() => {
     const isMin = typeof window !== 'undefined' ? localStorage.getItem('dealdeck_sidebar_minimized') === 'true' : false;
     setIsMinimized(isMin);
-    if (isMin) {
+    if (isMin && window.innerWidth > 992) {
       document.body.classList.add('sidebar-minimized');
+    } else if (isMin && window.innerWidth <= 992) {
+      document.body.classList.remove('sidebar-minimized');
     } else {
       document.body.classList.remove('sidebar-minimized');
     }
@@ -217,7 +219,7 @@ export default function Sidebar() {
   return (
     <>
       <style>{`@keyframes slowSpin { to { transform: rotate(360deg); } } @keyframes pulseGlow { 0% { box-shadow: 0 2px 4px rgba(255, 75, 43, 0.2); opacity: 0.95; } 100% { box-shadow: 0 2px 10px rgba(255, 75, 43, 0.6); opacity: 1; } }`}</style>
-      <aside className={`${styles.sidebar} ${isMinimized ? styles.minimized : ''} ${mobileOpen ? styles.mobileOpen : ''}`}>
+      <aside className={`${styles.sidebar} ${isMinimized && !isMobile ? styles.minimized : ''} ${mobileOpen ? styles.mobileOpen : ''}`}>
       <div className={styles.brand}>
         {(!isMinimized || isMobile) && (
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -273,7 +275,7 @@ export default function Sidebar() {
         </div>
       )}
 
-      <nav className={styles.nav}>
+      <nav className={styles.nav} style={{ color: '#FFFFFF' }}>
         <div className={styles.slideTabs}>
           {['SEO', 'AEO', 'GEO'].map((tab) => (
             <button

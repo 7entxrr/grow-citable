@@ -113,9 +113,66 @@ export default function DashboardPage() {
 
   return (
     <div className={styles.dashboardContainer} style={{ background: "#F5F5F7", minHeight: "100vh" }}>
+      <style>{`
+        @media (max-width: 768px) {
+          .dash-main-content {
+            padding: 24px 16px !important;
+          }
+          .dash-search-card {
+            padding: 24px 16px !important;
+          }
+          .dash-search-row {
+            flex-direction: column !important;
+          }
+          .dash-search-input-wrap {
+            width: 100% !important;
+          }
+          .dash-search-btn {
+            width: 100% !important;
+            justify-content: center !important;
+          }
+          .dash-engine-icons {
+            gap: 12px !important;
+          }
+          .dash-engine-icon {
+            width: 24px !important;
+            height: 24px !important;
+          }
+          .dash-token-badge {
+            flex-wrap: wrap !important;
+            gap: 8px !important;
+          }
+          .dash-skeleton-padding {
+            padding: 20px !important;
+          }
+          .dash-skeleton-inner-padding {
+            padding: 20px !important;
+          }
+          .dash-skeleton-grid > div {
+            padding: 20px !important;
+          }
+        }
+        @media (max-width: 480px) {
+          .dash-main-content {
+            padding: 16px 10px !important;
+          }
+          .dash-search-card {
+            padding: 16px 12px !important;
+          }
+          .dash-engine-icons {
+            gap: 8px !important;
+          }
+          .dash-header-title {
+            font-size: 1.25rem !important;
+          }
+          .dash-skeleton-padding {
+            padding: 16px !important;
+          }
+        }
+      `}</style>
       <Sidebar />
       <main className={styles.mainContent}>
-        <div style={{
+        <div className="dash-main-content" style={{
           padding: "40px 48px",
           maxWidth: "100%",
           margin: "0 auto",
@@ -135,7 +192,7 @@ export default function DashboardPage() {
               justifyContent: "flex-end",
               marginBottom: "24px"
             }}>
-              <div style={{
+              <div className="dash-token-badge" style={{
                 background: "#FFFFFF",
                 border: "1px solid #EAEAEF",
                 borderRadius: "14px",
@@ -190,7 +247,7 @@ export default function DashboardPage() {
                   AI Visibility Analysis
                 </span>
               </div>
-              <h1 style={{ fontSize: "1.75rem", fontWeight: 700, color: "#090A0F", margin: "0 0 6px", letterSpacing: "-0.02em" }}>
+              <h1 className="dash-header-title" style={{ fontSize: "1.75rem", fontWeight: 700, color: "#090A0F", margin: "0 0 6px", letterSpacing: "-0.02em" }}>
                 Check your brand&apos;s AI presence
               </h1>
               <p style={{ fontSize: "0.9rem", color: "#6E7191", margin: 0, lineHeight: "1.5" }}>
@@ -201,7 +258,7 @@ export default function DashboardPage() {
 
           {/* Search Input Card */}
           {showCentered && (
-            <div style={{
+            <div className="dash-search-card" style={{
               background: "#FFFFFF",
               borderRadius: "20px",
               border: "1px solid #EAEAEF",
@@ -212,25 +269,24 @@ export default function DashboardPage() {
               maxWidth: "800px",
               margin: "0 auto 32px"
             }}>
-              <div style={{
+              <div className="dash-search-row" style={{
                 display: "flex",
                 gap: "12px",
                 alignItems: "center",
                 maxWidth: "1000px",
                 margin: "0 auto"
               }}>
-                <div style={{
+                <div className="dash-search-input-wrap" style={{
                   flex: 1,
                   display: "flex",
                   alignItems: "center",
                   gap: "12px",
                   background: "#F5F5F7",
                   borderRadius: "14px",
-                  padding: "6px 6px 6px 18px",
+                  padding: "6px 6px 6px 16px",
                   border: "2px solid #EAEAEF",
                   transition: "border-color 0.2s"
                 }}>
-                  <Globe size={20} color="#6E7191" />
                   <input
                     type="text"
                     placeholder="Enter your domain (e.g., yourbrand.com)"
@@ -269,6 +325,7 @@ export default function DashboardPage() {
                 <button
                   onClick={handleAnalyze}
                   disabled={!domain.trim() || isRunningAudit}
+                  className="dash-search-btn"
                   style={{
                     background: !domain.trim() || isRunningAudit ? "#D9D9DD" : "#090A0F",
                     color: "#FFFFFF",
@@ -305,7 +362,7 @@ export default function DashboardPage() {
               )}
 
               {/* AI Engine Icons below input */}
-              <div style={{
+              <div className="dash-engine-icons" style={{
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
