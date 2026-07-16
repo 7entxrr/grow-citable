@@ -1,0 +1,102 @@
+{
+  "project": {
+    "name": "Crawl Audit Redesign",
+    "operation": "create",
+    "designRead": "seo-tool dashboard / technical seo professionals / restrained, editorial, data-precise / information-dense / avoid noise and chartjunk",
+    "designDials": {
+      "layoutVariance": 2,
+      "motionIntensity": 1,
+      "visualDensity": 3
+    },
+    "generationTree": {
+      "root": {
+        "nodeId": "gen-project-shell",
+        "kind": "project-shell",
+        "pageIds": ["page-crawl-audit"],
+        "output": "partials/project-shell.html",
+        "sharedRegions": ["html-frame", "head-elements", "brand-css"],
+        "privateRegions": ["main-content"],
+        "mutableSlots": [],
+        "status": "planned",
+        "children": [
+          {
+            "nodeId": "gen-page-crawl-audit",
+            "kind": "page-leaf",
+            "pageIds": ["page-crawl-audit"],
+            "output": "pages/crawl-audit.html",
+            "sharedRegions": [],
+            "privateRegions": ["main-content"],
+            "mutableSlots": [],
+            "status": "planned",
+            "children": []
+          }
+        ]
+      }
+    }
+  },
+  "designSource": {
+    "operatingMode": "library-bound",
+    "brandPrefix": "apple",
+    "libraryIdentity": {
+      "name": "Apple",
+      "id": "dl_builtin_apple",
+      "version": null,
+      "scope": "built-in-global",
+      "path": "c:\\Users\\hp\\.trae\\design_libraries\\dl_builtin_apple",
+      "versionSource": "selected-context"
+    },
+    "designTokens": {
+      "primaryColor": "#0066cc",
+      "backgroundColor": "#ffffff",
+      "surfaceColor": "#f5f5f7",
+      "textColor": "#1d1d1f",
+      "borderColor": "#d1d1d6",
+      "mutedColor": "#8e8e93",
+      "successColor": "#34c759",
+      "errorColor": "#ff3b30",
+      "warningColor": "#ff9500",
+      "chartColor1": "#34c759",
+      "chartColor2": "#0066cc",
+      "chartColor3": "#ff9500",
+      "chartColor4": "#5856d6",
+      "chartColor5": "#af52de"
+    },
+    "typography": {
+      "fontSans": "DM Sans, ui-sans-serif, sans-serif",
+      "fontMono": "JetBrains Mono, monospace",
+      "heroSize": "72px",
+      "heroWeight": 600,
+      "bodySize": "14px",
+      "bodyWeight": 400,
+      "bodyLineHeight": 1.55
+    },
+    "radius": "1.2rem",
+    "spacingBase": "0.24rem",
+    "styleConstraints": {
+      "radiusMax": 19.2,
+      "staticShadowAlphaMax": 0.04
+    }
+  },
+  "pages": [
+    {
+      "nodeId": "page-crawl-audit",
+      "title": "Crawl Audit",
+      "htmlSrc": "pages/crawl-audit.html",
+      "pageIndex": 1,
+      "pageType": "information-dense",
+      "group": 0,
+      "visualNorthStar": "Apple-style SEO dashboard with restrained surfaces, editorial data presentation, and whisper-light shadows",
+      "compositionPattern": "header + input bar + summary kpi row + tabbed results area + analytics section",
+      "continuityAnchors": [
+        "Apple brand CSS variables throughout",
+        "Pill-shaped buttons and inputs",
+        "Border-defined cards with minimal shadow",
+        "DM Sans typography with JetBrains Mono for data"
+      ],
+      "imagePlan": []
+    }
+  ],
+  "assets": [],
+  "wiringPlan": [],
+  "hiddenInteractionPlan": []
+}

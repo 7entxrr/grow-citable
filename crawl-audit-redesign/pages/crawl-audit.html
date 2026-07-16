@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crawl Audit Redesign — Apple-Inspired SEO Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style id="theme-vars">
+/*
+ * Pinguo design tokens
+ * Brand: Pinguo
+ * Domain: Consumer imaging product
+ * Style: Restrained, elegant, Apple-inspired
+ * Theme mode: light-dark
+ * Source language: zh
+ * Output language: en
+ *
+ * Color architecture (two layers):
+ *   1. Primitive palette - six categories. brand / background / text / icon
+ *      are each a 10-step scale (50 lightest to 900 darkest). state-success and
+ *      state-error are functional colors anchored on Apple system colors.
+ *      Anchors follow Apple Human Interface Guidelines system colors
+ *      (System Blue #007AFF, System Green #34C759, System Red #FF3B30,
+ *      system grays / label / background colors).
+ *   2. Semantic tokens - :root (light) and .dark map roles onto primitives.
+ *      Components and UI kits must only consume the semantic tokens below.
+ */
+
+/* @group-priority: brand, background, text, icon, state-success, state-error */
+
+:root {
+  
+  /* solo-design consumption aliases: explicit prefix for fill-html-head.mjs */
+  --apple-background: var(--background, #ffffff);
+  --apple-foreground: var(--foreground, #0f172a);
+  --apple-card: var(--card, var(--background));
+  --apple-card-foreground: var(--card-foreground, var(--foreground));
+  --apple-popover: var(--popover, var(--card));
+  --apple-popover-foreground: var(--popover-foreground, var(--card-foreground, var(--foreground)));
+  --apple-primary: var(--primary, #111827);
+  --apple-primary-foreground: var(--primary-foreground, #ffffff);
+  --apple-secondary: var(--secondary, var(--muted, var(--card)));
+  --apple-secondary-foreground: var(--secondary-foreground, var(--foreground));
+  --apple-muted: var(--muted, var(--card));
+  --apple-muted-foreground: var(--muted-foreground, var(--foreground));
+  --apple-accent: var(--accent, var(--secondary, var(--muted, var(--card))));
+  --apple-accent-foreground: var(--accent-foreground, var(--foreground));
+  --apple-destructive: var(--destructive, #ef4444);
+  --apple-destructive-foreground: var(--destructive-foreground, #ffffff);
+  --apple-border: var(--border, currentColor);
+  --apple-input: var(--input, var(--border));
+  --apple-ring: var(--ring, var(--primary));
+  --apple-chart-1: var(--chart-1, var(--primary));
+  --apple-chart-2: var(--chart-2, var(--secondary, var(--primary)));
+  --apple-chart-3: var(--chart-3, var(--accent, var(--primary)));
+  --apple-chart-4: var(--chart-4, var(--muted-foreground, var(--foreground)));
+  --apple-chart-5: var(--chart-5, var(--foreground));
+  --apple-sidebar: var(--sidebar, var(--background));
+  --apple-sidebar-foreground: var(--sidebar-foreground, var(--foreground));
+  --apple-sidebar-primary: var(--sidebar-primary, var(--primary));
+  --apple-sidebar-primary-foreground: var(--sidebar-primary-foreground, var(--primary-foreground));
+  --apple-sidebar-accent: var(--sidebar-accent, var(--accent, var(--muted, var(--card))));
+  --apple-sidebar-accent-foreground: var(--sidebar-accent-foreground, var(--accent-foreground, var(--foreground)));
+
+/* ===== PRIMITIVE PALETTE ===== */
+
+  /* brand */
+  --brand-50: #e8f2ff;
+  --brand-100: #cfe5ff;
+  --brand-200: #9fcbff;
+  --brand-300: #66abff;
+  --brand-400: #2e8dff;
+  --brand-500: #007aff; /* @primary */
+  --brand-600: #0064d6;
+  --brand-700: #004fad;
+  --brand-800: #003b82;
+  --brand-900: #00275a;
+
+  /* background */
+  --background-50: #ffffff;
+  --background-100: #f7f7fa;
+  --background-200: #f2f2f7;
+  --background-300: #e5e5ea;
+  --background-400: #d1d1d6;
+  --background-500: #aeaeb2;
+  --background-600: #8e8e93;
+  --background-700: #3a3a3c;
+  --background-800: #1c1c1e;
+  --background-900: #000000;
+
+  /* text */
+  --text-50: #f5f5f7;
+  --text-100: #e3e3e8;
+  --text-200: #c7c7cc;
+  --text-300: #aeaeb2;
+  --text-400: #8e8e93;
+  --text-500: #6e6e73;
+  --text-600: #48484a;
+  --text-700: #3c3c43;
+  --text-800: #1d1d1f;
+  --text-900: #000000;
+
+  /* icon */
+  --icon-50: #f5f5f7;
+  --icon-100: #e5e5ea;
+  --icon-200: #d1d1d6;
+  --icon-300: #c7c7cc;
+  --icon-400: #aeaeb2;
+  --icon-500: #8e8e93;
+  --icon-600: #6e6e73;
+  --icon-700: #48484a;
+  --icon-800: #2c2c2e;
+  --icon-900: #1d1d1f;
+
+  /* state-success */
+  --state-success: #34c759; /* @primary */
+  --state-success-dark: #30d158;
+  --state-success-surface: #e9f9ee;
+  --state-success-foreground: #ffffff;
+
+  /* state-error */
+  --state-error: #ff3b30; /* @primary */
+  --state-error-dark: #ff453a;
+  --state-error-surface: #ffecea;
+  --state-error-foreground: #ffffff;
+
+  /* ===== SEMANTIC ROLES ===== */
+
+  /* semantic */
+  --background: var(--background-50);
+  --foreground: var(--text-800);
+  --card: var(--background-50);
+  --card-foreground: var(--text-800);
+  --popover: var(--background-50);
+  --popover-foreground: var(--text-900);
+
+  --primary: var(--brand-500);
+  --primary-foreground: var(--background-50);
+  --secondary: var(--background-200);
+  --secondary-foreground: var(--text-800);
+  --muted: var(--background-200);
+  --muted-foreground: var(--text-400);
+  --accent: var(--background-100);
+  --accent-foreground: var(--text-800);
+  --destructive: var(--state-error);
+  --destructive-foreground: var(--state-error-foreground);
+  --success: var(--state-success);
+  --success-foreground: var(--state-success-foreground);
+  --border: var(--background-300);
+  --input: var(--background-400);
+  --ring: var(--brand-500);
+
+  --icon: var(--icon-900);
+  --icon-muted: var(--icon-500);
+
+  /* chart */
+  --chart-1: var(--state-success);
+  --chart-2: var(--brand-500);
+  --chart-3: #ff9500;
+  --chart-4: #5856d6;
+  --chart-5: #af52de;
+
+  /* sidebar */
+  --sidebar: var(--background-200);
+  --sidebar-foreground: var(--text-800);
+  --sidebar-primary: var(--brand-500);
+  --sidebar-primary-foreground: var(--background-50);
+  --sidebar-accent: var(--background-300);
+  --sidebar-accent-foreground: var(--text-800);
+  --sidebar-border: var(--background-300);
+  --sidebar-ring: var(--brand-500);
+
+  /* TYPOGRAPHY */
+  --font-sans: DM Sans, ui-sans-serif, sans-serif, system-ui;
+  --font-serif: DM Sans, ui-sans-serif, sans-serif, system-ui;
+  --font-mono: JetBrains Mono, monospace;
+  --tracking-normal: 0em;
+
+  /* RADIUS */
+  --radius: 1.2rem;
+
+  /* SHADOWS */
+  --shadow-2xs: 0 1px 2px -1px rgba(0, 0, 0, 0.04); /* Hairline */
+  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.04); /* Subtle */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05), 0 1px 3px -1px rgba(0, 0, 0, 0.05); /* Card */
+  --shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.06), 0 1px 2px -1px rgba(0, 0, 0, 0.05); /* Raised */
+  --shadow-md: 0 4px 8px -2px rgba(0, 0, 0, 0.06), 0 2px 4px -2px rgba(0, 0, 0, 0.05); /* Card Hover */
+  --shadow-lg: 0 8px 24px -8px rgba(0, 0, 0, 0.08), 0 4px 8px -4px rgba(0, 0, 0, 0.05); /* Float */
+  --shadow-xl: 0 16px 40px -10px rgba(0, 0, 0, 0.10), 0 8px 16px -8px rgba(0, 0, 0, 0.06); /* Overlay */
+  --shadow-2xl: 0 24px 64px -12px rgba(0, 0, 0, 0.12); /* Modal */
+
+  /* SPACING */
+  --spacing: 0.24rem;
+}
+
+/* ===== SEMANTIC ROLES - dark (primitive palette inherited) ===== */
+.dark {
+  --background: var(--background-900);
+  --foreground: var(--text-50);
+  --card: var(--background-800);
+  --card-foreground: var(--text-50);
+  --popover: var(--background-700);
+  --popover-foreground: var(--text-50);
+
+  --primary: var(--brand-400);
+  --primary-foreground: var(--background-900);
+  --secondary: var(--background-800);
+  --secondary-foreground: var(--text-50);
+  --muted: var(--background-800);
+  --muted-foreground: var(--text-400);
+  --accent: var(--background-700);
+  --accent-foreground: var(--text-50);
+  --destructive: var(--state-error-dark);
+  --destructive-foreground: var(--state-error-foreground);
+  --success: var(--state-success-dark);
+  --success-foreground: var(--state-success-foreground);
+  --border: var(--background-700);
+  --input: var(--background-700);
+  --ring: var(--brand-400);
+
+  --icon: var(--icon-50);
+  --icon-muted: var(--icon-500);
+
+  --chart-1: var(--state-success-dark);
+  --chart-2: var(--brand-400);
+  --chart-3: #ff9f0a;
+  --chart-4: #5e5ce6;
+  --chart-5: #bf5af2;
+
+  --sidebar: var(--background-800);
+  --sidebar-foreground: var(--text-50);
+  --sidebar-primary: var(--brand-400);
+  --sidebar-primary-foreground: var(--background-900);
+  --sidebar-accent: var(--background-700);
+  --sidebar-accent-foreground: var(--text-50);
+  --sidebar-border: var(--background-700);
+  --sidebar-ring: var(--brand-400);
+
+  --shadow-2xs: 0 1px 2px -1px rgba(0, 0, 0, 0.30);
+  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.30);
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.36), 0 1px 3px -1px rgba(0, 0, 0, 0.36);
+  --shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.40), 0 1px 2px -1px rgba(0, 0, 0, 0.36);
+  --shadow-md: 0 4px 8px -2px rgba(0, 0, 0, 0.44), 0 2px 4px -2px rgba(0, 0, 0, 0.36);
+  --shadow-lg: 0 8px 24px -8px rgba(0, 0, 0, 0.50), 0 4px 8px -4px rgba(0, 0, 0, 0.40);
+  --shadow-xl: 0 16px 40px -10px rgba(0, 0, 0, 0.55), 0 8px 16px -8px rgba(0, 0, 0, 0.44);
+  --shadow-2xl: 0 24px 64px -12px rgba(0, 0, 0, 0.60);
+}
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-background: var(--apple-background);
+    --color-foreground: var(--apple-foreground);
+    --color-card: var(--apple-card);
+    --color-card-foreground: var(--apple-card-foreground);
+    --color-popover: var(--apple-popover);
+    --color-popover-foreground: var(--apple-popover-foreground);
+    --color-primary: var(--apple-primary);
+    --color-primary-foreground: var(--apple-primary-foreground);
+    --color-secondary: var(--apple-secondary);
+    --color-secondary-foreground: var(--apple-secondary-foreground);
+    --color-muted: var(--apple-muted);
+    --color-muted-foreground: var(--apple-muted-foreground);
+    --color-accent: var(--apple-accent);
+    --color-accent-foreground: var(--apple-accent-foreground);
+    --color-destructive: var(--apple-destructive);
+    --color-destructive-foreground: var(--apple-destructive-foreground);
+    --color-border: var(--apple-border);
+    --color-input: var(--apple-input);
+    --color-ring: var(--apple-ring);
+    --color-chart-1: var(--apple-chart-1);
+    --color-chart-2: var(--apple-chart-2);
+    --color-chart-3: var(--apple-chart-3);
+    --color-chart-4: var(--apple-chart-4);
+    --color-chart-5: var(--apple-chart-5);
+    --color-sidebar: var(--apple-sidebar);
+    --color-sidebar-foreground: var(--apple-sidebar-foreground);
+    --color-sidebar-primary: var(--apple-sidebar-primary);
+    --color-sidebar-primary-foreground: var(--apple-sidebar-primary-foreground);
+    --color-sidebar-accent: var(--apple-sidebar-accent);
+    --color-sidebar-accent-foreground: var(--apple-sidebar-accent-foreground);
+  }
+  @layer base {
+    body { background: var(--apple-background); color: var(--apple-foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+</head>
+<body class="min-h-screen font-sans antialiased">
+    <main class="font-sans bg-[var(--apple-background)] text-[var(--apple-foreground)]">
+
+        <!-- ===== HEADER ===== -->
+        <div class="max-w-6xl mx-auto px-8 pt-16 pb-10">
+            <h1 class="text-5xl font-semibold tracking-tight text-[var(--apple-foreground)]">Crawl Audit</h1>
+            <p class="text-xl text-[var(--apple-muted-foreground)] mt-3">Site structure analysis &amp; technical SEO health</p>
+        </div>
+
+        <!-- ===== URL INPUT BAR ===== -->
+        <div class="max-w-6xl mx-auto px-8 pb-12">
+            <div class="flex gap-4 items-center">
+                <input type="text" placeholder="Enter website URL (e.g., example.com)"
+                    class="flex-1 px-6 py-4 rounded-full border border-[var(--apple-border)] bg-[var(--apple-background)] text-[var(--apple-foreground)] placeholder:text-[var(--apple-muted-foreground)] text-base outline-none focus:border-[var(--apple-primary)] focus:ring-1 focus:ring-[var(--apple-primary)] transition-all duration-200" />
+                <button class="px-8 py-4 rounded-full bg-[var(--apple-primary)] text-white font-medium text-base hover:opacity-90 transition-opacity shrink-0">
+                    Scan Website
+                </button>
+            </div>
+            <!-- Max pages slider -->
+            <div class="flex items-center gap-4 mt-5 px-1">
+                <span class="text-sm text-[var(--apple-muted-foreground)] font-medium">Max pages: <span class="font-mono text-[var(--apple-foreground)]">100</span></span>
+                <input type="range" min="5" max="200" value="100" class="flex-1 max-w-xs h-1.5 accent-[var(--apple-primary)] bg-[var(--apple-border)] rounded-full appearance-none cursor-pointer" />
+                <span class="text-xs text-[var(--apple-muted-foreground)]">200</span>
+            </div>
+        </div>
+
+        <!-- ===== METRICS SUMMARY ROW ===== -->
+        <div class="max-w-6xl mx-auto px-8 pb-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+
+                <!-- Pages Crawled -->
+                <div class="border border-[var(--apple-border)] rounded-[var(--radius)] p-6 bg-[var(--apple-card)]">
+                    <p class="text-sm text-[var(--apple-muted-foreground)] font-medium">Pages Crawled</p>
+                    <p class="text-4xl font-mono font-semibold mt-2 text-[var(--apple-foreground)]">1,247</p>
+                </div>
+
+                <!-- Issues Found -->
+                <div class="border border-[var(--apple-border)] rounded-[var(--radius)] p-6 bg-[var(--apple-card)]">
+                    <p class="text-sm text-[var(--apple-muted-foreground)] font-medium">Issues Found</p>
+                    <p class="text-4xl font-mono font-semibold mt-2 text-[var(--apple-destructive)]">38</p>
+                </div>
+
+                <!-- Avg Load Time -->
+                <div class="border border-[var(--apple-border)] rounded-[var(--radius)] p-6 bg-[var(--apple-card)]">
+                    <p class="text-sm text-[var(--apple-muted-foreground)] font-medium">Avg Load Time</p>
+                    <p class="text-4xl font-mono font-semibold mt-2 text-[var(--apple-foreground)]">1,423<span class="text-base text-[var(--apple-muted-foreground)] font-sans">ms</span></p>
+                </div>
+
+                <!-- Health Score with SVG ring -->
+                <div class="border border-[var(--apple-border)] rounded-[var(--radius)] p-6 bg-[var(--apple-card)] flex items-start justify-between">
+                    <div>
+                        <p class="text-sm text-[var(--apple-muted-foreground)] font-medium">Health Score</p>
+                        <p class="text-4xl font-mono font-semibold mt-2 text-[var(--apple-foreground)]">87<span class="text-base text-[var(--apple-muted-foreground)] font-sans">%</span></p>
+                    </div>
+                    <svg width="56" height="56" viewBox="0 0 56 56" class="mt-1 shrink-0">
+                        <circle cx="28" cy="28" r="24" fill="none" stroke="var(--apple-border)" stroke-width="3" />
+                        <circle cx="28" cy="28" r="24" fill="none" stroke="var(--apple-chart-1)" stroke-width="3"
+                            stroke-dasharray="150.8" stroke-dashoffset="19.6" transform="rotate(-90 28 28)" stroke-linecap="round" />
+                    </svg>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ===== TABS & CONTENT ===== -->
+        <div class="max-w-6xl mx-auto px-8 pb-12">
+
+            <!-- Tab Navigation -->
+            <div class="flex gap-8 border-b border-[var(--apple-border)]">
+                <button class="pb-3 text-sm font-medium text-[var(--apple-foreground)] border-b-2 border-[var(--apple-foreground)] -mb-px">Issues</button>
+                <button class="pb-3 text-sm font-medium text-[var(--apple-muted-foreground)]">Pages</button>
+            </div>
+
+            <!-- ===== ISSUES TAB (default active) ===== -->
+            <div class="mt-6 space-y-3">
+
+                <!-- Issue 1: Broken Link -->
+                <div class="flex items-start gap-4 border border-[var(--apple-border)] rounded-xl p-4 bg-[var(--apple-card)]">
+                    <span class="w-2 h-2 rounded-full bg-[var(--apple-destructive)] shrink-0 mt-1.5"></span>
+                    <div class="flex items-start gap-4 flex-1 min-w-0">
+                        <span class="px-2.5 py-0.5 rounded-full text-xs font-medium shrink-0 whitespace-nowrap bg-[var(--apple-destructive)]/10 text-[var(--apple-destructive)]">Broken Link</span>
+                        <span class="font-mono text-sm text-[var(--apple-foreground)] truncate flex-1 min-w-0">/products/summer-collection</span>
+                        <span class="text-sm text-[var(--apple-muted-foreground)] truncate flex-1 min-w-0 max-w-48">HTTP 404 -- resource not found</span>
+                        <span class="px-3 py-1 rounded-full text-xs font-medium shrink-0 bg-[var(--apple-destructive)]/10 text-[var(--apple-destructive)]">Open</span>
+                    </div>
+                </div>
+
+                <!-- Issue 2: Redirect -->
+                <div class="flex items-start gap-4 border border-[var(--apple-border)] rounded-xl p-4 bg-[var(--apple-card)]">
+                    <span class="w-2 h-2 rounded-full bg-[var(--apple-chart-3)] shrink-0 mt-1.5"></span>
+                    <div class="flex items-start gap-4 flex-1 min-w-0">
+                        <span class="px-2.5 py-0.5 rounded-full text-xs font-medium shrink-0 whitespace-nowrap bg-[var(--apple-chart-3)]/10 text-[var(--apple-chart-3)]">Redirect</span>
+                        <span class="font-mono text-sm text-[var(--apple-foreground)] truncate flex-1 min-w-0">/blog/old-post</span>
+                        <span class="text-sm text-[var(--apple-muted-foreground)] truncate flex-1 min-w-0 max-w-48">301 redirect to /blog/new-post</span>
+                        <span class="px-3 py-1 rounded-full text-xs font-medium shrink-0 bg-[var(--apple-chart-3)]/10 text-[var(--apple-chart-3)]">Open</span>
+                    </div>
+                </div>
+
+                <!-- Issue 3: Duplicate -->
+                <div class="flex items-start gap-4 border border-[var(--apple-border)] rounded-xl p-4 bg-[var(--apple-card)]">
+                    <span class="w-2 h-2 rounded-full bg-[var(--apple-chart-3)] shrink-0 mt-1.5"></span>
+                    <div class="flex items-start gap-4 flex-1 min-w-0">
+                        <span class="px-2.5 py-0.5 rounded-full text-xs font-medium shrink-0 whitespace-nowrap bg-[var(--apple-chart-3)]/10 text-[var(--apple-chart-3)]">Duplicate</span>
+                        <span class="font-mono text-sm text-[var(--apple-foreground)] truncate flex-1 min-w-0">/about</span>
+                        <span class="text-sm text-[var(--apple-muted-foreground)] truncate flex-1 min-w-0 max-w-48">Duplicate: /about-us, /about/company</span>
+                        <span class="px-3 py-1 rounded-full text-xs font-medium shrink-0 bg-[var(--apple-chart-3)]/10 text-[var(--apple-chart-3)]">Open</span>
+                    </div>
+                </div>
+
+                <!-- Issue 4: Missing Meta -->
+                <div class="flex items-start gap-4 border border-[var(--apple-border)] rounded-xl p-4 bg-[var(--apple-card)]">
+                    <span class="w-2 h-2 rounded-full bg-[var(--apple-chart-4)] shrink-0 mt-1.5"></span>
+                    <div class="flex items-start gap-4 flex-1 min-w-0">
+                        <span class="px-2.5 py-0.5 rounded-full text-xs font-medium shrink-0 whitespace-nowrap bg-[var(--apple-chart-4)]/10 text-[var(--apple-chart-4)]">Missing Meta</span>
+                        <span class="font-mono text-sm text-[var(--apple-foreground)] truncate flex-1 min-w-0">/blog/deep-dive</span>
+                        <span class="text-sm text-[var(--apple-muted-foreground)] truncate flex-1 min-w-0 max-w-48">Missing meta description and og:title</span>
+                        <span class="px-3 py-1 rounded-full text-xs font-medium shrink-0 bg-[var(--apple-chart-4)]/10 text-[var(--apple-chart-4)]">Open</span>
+                    </div>
+                </div>
+
+                <!-- Issue 5: Broken Link -->
+                <div class="flex items-start gap-4 border border-[var(--apple-border)] rounded-xl p-4 bg-[var(--apple-card)]">
+                    <span class="w-2 h-2 rounded-full bg-[var(--apple-destructive)] shrink-0 mt-1.5"></span>
+                    <div class="flex items-start gap-4 flex-1 min-w-0">
+                        <span class="px-2.5 py-0.5 rounded-full text-xs font-medium shrink-0 whitespace-nowrap bg-[var(--apple-destructive)]/10 text-[var(--apple-destructive)]">Broken Link</span>
+                        <span class="font-mono text-sm text-[var(--apple-foreground)] truncate flex-1 min-w-0">/resources/whitepaper.pdf</span>
+                        <span class="text-sm text-[var(--apple-muted-foreground)] truncate flex-1 min-w-0 max-w-48">HTTP 410 -- permanently removed</span>
+                        <span class="px-3 py-1 rounded-full text-xs font-medium shrink-0 bg-[var(--apple-destructive)]/10 text-[var(--apple-destructive)]">Open</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ===== PAGES TAB CONTENT (hidden, Issues tab is default) ===== -->
+            <div class="mt-6 hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="border-b border-[var(--apple-border)]">
+                                <th class="text-left pb-3 pr-4 text-[var(--apple-muted-foreground)] font-medium">URL Path</th>
+                                <th class="text-left pb-3 pr-4 text-[var(--apple-muted-foreground)] font-medium">Title</th>
+                                <th class="text-right pb-3 pr-4 text-[var(--apple-muted-foreground)] font-medium">Status</th>
+                                <th class="text-right pb-3 pr-4 text-[var(--apple-muted-foreground)] font-medium">Words</th>
+                                <th class="text-right pb-3 pr-4 text-[var(--apple-muted-foreground)] font-medium">Depth</th>
+                                <th class="text-center pb-3 text-[var(--apple-muted-foreground)] font-medium">Indexable</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-[var(--apple-border)]">
+                                <td class="py-3 pr-4 font-mono text-xs text-[var(--apple-foreground)]">/</td>
+                                <td class="py-3 pr-4 text-[var(--apple-foreground)]">Homepage</td>
+                                <td class="py-3 pr-4 text-right font-mono text-[var(--apple-chart-1)]">200</td>
+                                <td class="py-3 pr-4 text-right font-mono text-[var(--apple-foreground)]">342</td>
+                                <td class="py-3 pr-4 text-right font-mono text-[var(--apple-muted-foreground)]">0</td>
+                                <td class="py-3 text-center">
+                                    <span class="inline-block w-2 h-2 rounded-full bg-[var(--apple-chart-1)]"></span>
+                                </td>
+                            </tr>
+                            <tr class="border-b border-[var(--apple-border)]">
+                                <td class="py-3 pr-4 font-mono text-xs text-[var(--apple-foreground)]">/products</td>
+                                <td class="py-3 pr-4 text-[var(--apple-foreground)]">Products</td>
+                                <td class="py-3 pr-4 text-right font-mono text-[var(--apple-chart-1)]">200</td>
+                                <td class="py-3 pr-4 text-right font-mono text-[var(--apple-foreground)]">523</td>
+                                <td class="py-3 pr-4 text-right font-mono text-[var(--apple-muted-foreground)]">1</td>
+                                <td class="py-3 text-center">
+                                    <span class="inline-block w-2 h-2 rounded-full bg-[var(--apple-chart-1)]"></span>
+                                </td>
+                            </tr>
+                            <tr class="border-b border-[var(--apple-border)]">
+                                <td class="py-3 pr-4 font-mono text-xs text-[var(--apple-foreground)]">/about</td>
+                                <td class="py-3 pr-4 text-[var(--apple-foreground)]">About Us</td>
+                                <td class="py-3 pr-4 text-right font-mono text-[var(--apple-chart-1)]">200</td>
+                                <td class="py-3 pr-4 text-right font-mono text-[var(--apple-foreground)]">1,240</td>
+                                <td class="py-3 pr-4 text-right font-mono text-[var(--apple-muted-foreground)]">1</td>
+                                <td class="py-3 text-center">
+                                    <span class="inline-block w-2 h-2 rounded-full bg-[var(--apple-chart-1)]"></span>
+                                </td>
+                            </tr>
+                            <tr class="border-b border-[var(--apple-border)]">
+                                <td class="py-3 pr-4 font-mono text-xs text-[var(--apple-foreground)]">/blog/deep-dive</td>
+                                <td class="py-3 pr-4 text-[var(--apple-foreground)]">Deep Dive Guide</td>
+                                <td class="py-3 pr-4 text-right font-mono text-[var(--apple-chart-1)]">200</td>
+                                <td class="py-3 pr-4 text-right font-mono text-[var(--apple-foreground)]">2,150</td>
+                                <td class="py-3 pr-4 text-right font-mono text-[var(--apple-muted-foreground)]">2</td>
+                                <td class="py-3 text-center">
+                                    <span class="inline-block w-2 h-2 rounded-full bg-[var(--apple-chart-1)]"></span>
+                                </td>
+                            </tr>
+                            <tr class="border-b border-[var(--apple-border)]">
+                                <td class="py-3 pr-4 font-mono text-xs text-[var(--apple-foreground)]">/products/summer-collection</td>
+                                <td class="py-3 pr-4 text-[var(--apple-muted-foreground)] italic">(missing title)</td>
+                                <td class="py-3 pr-4 text-right font-mono text-[var(--apple-destructive)]">404</td>
+                                <td class="py-3 pr-4 text-right font-mono text-[var(--apple-muted-foreground)]">--</td>
+                                <td class="py-3 pr-4 text-right font-mono text-[var(--apple-muted-foreground)]">2</td>
+                                <td class="py-3 text-center">
+                                    <span class="inline-block w-2 h-2 rounded-full bg-[var(--apple-destructive)]"></span>
+                                </td>
+                            </tr>
+                            <tr class="border-b border-[var(--apple-border)]">
+                                <td class="py-3 pr-4 font-mono text-xs text-[var(--apple-foreground)]">/blog/old-post</td>
+                                <td class="py-3 pr-4 text-[var(--apple-foreground)]">Old Blog Post</td>
+                                <td class="py-3 pr-4 text-right font-mono text-[var(--apple-chart-3)]">301</td>
+                                <td class="py-3 pr-4 text-right font-mono text-[var(--apple-muted-foreground)]">780</td>
+                                <td class="py-3 pr-4 text-right font-mono text-[var(--apple-muted-foreground)]">2</td>
+                                <td class="py-3 text-center">
+                                    <span class="inline-block w-2 h-2 rounded-full bg-[var(--apple-chart-3)]"></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ===== ANALYTICS SECTION ===== -->
+        <div class="max-w-6xl mx-auto px-8 pb-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <!-- Crawl Depth Distribution -->
+                <div class="border border-[var(--apple-border)] rounded-[var(--radius)] p-6 bg-[var(--apple-card)]">
+                    <h3 class="text-base font-medium text-[var(--apple-foreground)]">Crawl Depth Distribution</h3>
+                    <div class="mt-6 space-y-4">
+                        <!-- Depth 0 -->
+                        <div class="flex items-center gap-3">
+                            <span class="font-mono text-xs text-[var(--apple-muted-foreground)] w-6">0</span>
+                            <div class="flex-1 h-6 bg-[var(--apple-muted)] rounded-full overflow-hidden">
+                                <div class="h-full bg-[var(--apple-chart-1)] rounded-full" style="width: 8%;"></div>
+                            </div>
+                            <span class="font-mono text-xs text-[var(--apple-muted-foreground)] w-12 text-right">98</span>
+                        </div>
+                        <!-- Depth 1 -->
+                        <div class="flex items-center gap-3">
+                            <span class="font-mono text-xs text-[var(--apple-muted-foreground)] w-6">1</span>
+                            <div class="flex-1 h-6 bg-[var(--apple-muted)] rounded-full overflow-hidden">
+                                <div class="h-full bg-[var(--apple-chart-2)] rounded-full" style="width: 45%;"></div>
+                            </div>
+                            <span class="font-mono text-xs text-[var(--apple-muted-foreground)] w-12 text-right">562</span>
+                        </div>
+                        <!-- Depth 2 -->
+                        <div class="flex items-center gap-3">
+                            <span class="font-mono text-xs text-[var(--apple-muted-foreground)] w-6">2</span>
+                            <div class="flex-1 h-6 bg-[var(--apple-muted)] rounded-full overflow-hidden">
+                                <div class="h-full bg-[var(--apple-chart-3)] rounded-full" style="width: 35%;"></div>
+                            </div>
+                            <span class="font-mono text-xs text-[var(--apple-muted-foreground)] w-12 text-right">436</span>
+                        </div>
+                        <!-- Depth 3 -->
+                        <div class="flex items-center gap-3">
+                            <span class="font-mono text-xs text-[var(--apple-muted-foreground)] w-6">3</span>
+                            <div class="flex-1 h-6 bg-[var(--apple-muted)] rounded-full overflow-hidden">
+                                <div class="h-full bg-[var(--apple-chart-4)] rounded-full" style="width: 10%;"></div>
+                            </div>
+                            <span class="font-mono text-xs text-[var(--apple-muted-foreground)] w-12 text-right">124</span>
+                        </div>
+                        <!-- Depth 4+ -->
+                        <div class="flex items-center gap-3">
+                            <span class="font-mono text-xs text-[var(--apple-muted-foreground)] w-6">4+</span>
+                            <div class="flex-1 h-6 bg-[var(--apple-muted)] rounded-full overflow-hidden">
+                                <div class="h-full bg-[var(--apple-chart-5)] rounded-full" style="width: 2%;"></div>
+                            </div>
+                            <span class="font-mono text-xs text-[var(--apple-muted-foreground)] w-12 text-right">27</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Indexability Composition -->
+                <div class="border border-[var(--apple-border)] rounded-[var(--radius)] p-6 bg-[var(--apple-card)]">
+                    <h3 class="text-base font-medium text-[var(--apple-foreground)]">Indexability Composition</h3>
+                    <div class="mt-6">
+                        <!-- Stacked bar -->
+                        <div class="h-8 bg-[var(--apple-muted)] rounded-full overflow-hidden flex">
+                            <div class="h-full bg-[var(--apple-chart-1)]" style="width: 78%;"></div>
+                            <div class="h-full bg-[var(--apple-chart-3)]" style="width: 15%;"></div>
+                            <div class="h-full bg-[var(--apple-destructive)]" style="width: 7%;"></div>
+                        </div>
+                        <!-- Legend -->
+                        <div class="flex flex-wrap gap-6 mt-5">
+                            <div class="flex items-center gap-2">
+                                <span class="w-2.5 h-2.5 rounded-full bg-[var(--apple-chart-1)]"></span>
+                                <span class="text-sm text-[var(--apple-foreground)]">Indexable</span>
+                                <span class="text-sm font-mono text-[var(--apple-muted-foreground)]">972</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="w-2.5 h-2.5 rounded-full bg-[var(--apple-chart-3)]"></span>
+                                <span class="text-sm text-[var(--apple-foreground)]">Non-indexable</span>
+                                <span class="text-sm font-mono text-[var(--apple-muted-foreground)]">187</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="w-2.5 h-2.5 rounded-full bg-[var(--apple-destructive)]"></span>
+                                <span class="text-sm text-[var(--apple-foreground)]">Errors</span>
+                                <span class="text-sm font-mono text-[var(--apple-muted-foreground)]">88</span>
+                            </div>
+                        </div>
+                        <!-- Additional metrics -->
+                        <div class="grid grid-cols-2 gap-4 mt-6 pt-6 border-t border-[var(--apple-border)]">
+                            <div>
+                                <p class="text-xs text-[var(--apple-muted-foreground)]">Canonical Tags</p>
+                                <p class="text-lg font-mono font-semibold text-[var(--apple-foreground)]">1,180</p>
+                            </div>
+                            <div>
+                                <p class="text-xs text-[var(--apple-muted-foreground)]">hreflang Tags</p>
+                                <p class="text-lg font-mono font-semibold text-[var(--apple-foreground)]">642</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ===== SITEMAP & ORPHANS ===== -->
+        <div class="max-w-6xl mx-auto px-8 pb-16">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                <!-- Sitemap Status -->
+                <div class="border border-[var(--apple-border)] rounded-[var(--radius)] p-6 bg-[var(--apple-card)]">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <p class="text-sm text-[var(--apple-muted-foreground)]">Sitemap</p>
+                            <p class="text-2xl font-mono font-semibold mt-1 text-[var(--apple-foreground)]">sitemap.xml</p>
+                        </div>
+                        <span class="px-3 py-1 rounded-full text-xs font-medium bg-[var(--apple-chart-1)]/10 text-[var(--apple-chart-1)]">Valid</span>
+                    </div>
+                    <div class="flex gap-6 mt-4 pt-4 border-t border-[var(--apple-border)]">
+                        <div>
+                            <p class="text-xs text-[var(--apple-muted-foreground)]">URLs Listed</p>
+                            <p class="font-mono text-sm font-semibold text-[var(--apple-foreground)]">1,234</p>
+                        </div>
+                        <div>
+                            <p class="text-xs text-[var(--apple-muted-foreground)]">Last Updated</p>
+                            <p class="font-mono text-sm text-[var(--apple-foreground)]">2026-07-11</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Orphan Pages -->
+                <div class="border border-[var(--apple-border)] rounded-[var(--radius)] p-6 bg-[var(--apple-card)]">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <p class="text-sm text-[var(--apple-muted-foreground)]">Orphan Pages</p>
+                            <p class="text-2xl font-mono font-semibold mt-1 text-[var(--apple-foreground)]">43</p>
+                        </div>
+                        <span class="px-3 py-1 rounded-full text-xs font-medium bg-[var(--apple-chart-3)]/10 text-[var(--apple-chart-3)]">Needs Review</span>
+                    </div>
+                    <p class="text-sm text-[var(--apple-muted-foreground)] mt-3">Pages with no internal links pointing to them. Consider adding contextual navigation or removing outdated content.</p>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+    <script>lucide.createIcons();</script>
+</body>
+</html>

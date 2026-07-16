@@ -1,0 +1,523 @@
+.sidebar {
+  width: var(--sidebar-width);
+  height: 100vh;
+  background: #111315; /* Sleek dark-theme background matching Stripe / Grow Citable screenshot */
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-direction: column;
+  padding: 24px 16px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow-y: auto;
+  z-index: 100;
+  transition: width 0.2s cubic-bezier(0.4, 0, 0.2, 1), padding 0.2s ease;
+}
+
+.sidebar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  padding: 0 12px;
+  transition: all 0.2s ease;
+}
+
+.brandCollapseBtn {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.brandCollapseBtn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #FFFFFF;
+}
+
+.logoIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.brandName {
+  font-size: 20px;
+  font-weight: 500;
+  color: #FFFFFF;
+  letter-spacing: -0.3px;
+  transition: opacity 0.2s ease;
+}
+
+.searchBar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin-bottom: 28px;
+  cursor: pointer;
+  transition: background 0.2s ease, padding 0.2s ease, justify-content 0.2s ease;
+}
+
+.searchBar:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.searchIcon {
+  color: rgba(255, 255, 255, 0.5);
+  flex-shrink: 0;
+}
+
+.searchText {
+  font-size: 14.5px;
+  color: rgba(255, 255, 255, 0.5);
+  flex: 1;
+}
+
+.searchShortcut {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.searchKbd {
+  font-size: 11px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 4px;
+  padding: 2px 5px;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex-grow: 1;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.sectionTitle {
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 0.5px;
+  padding-left: 12px;
+  margin-bottom: 8px;
+}
+
+.itemList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.itemButton {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 12px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.7);
+  transition: all 0.15s ease;
+  text-align: left;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.itemButton:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #FFFFFF;
+}
+
+.itemButton.active {
+  background: rgba(255, 255, 255, 0.15); /* Clean medium-grey pill matching screenshot */
+  color: #FFFFFF;
+}
+
+.icon {
+  flex-shrink: 0;
+  color: rgba(255, 255, 255, 0.6);
+  transition: color 0.15s ease;
+}
+
+.itemButton.active .icon {
+  color: #FFFFFF;
+}
+
+.lockIcon {
+  margin-left: auto;
+  flex-shrink: 0;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.phaseTag {
+  margin-left: auto;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  letter-spacing: 0.3px;
+}
+
+.phaseTag[data-tag="SEO"] {
+  background: rgba(46, 196, 182, 0.15);
+  color: #2EC4B6;
+}
+
+.phaseTag[data-tag="AEO"] {
+  background: rgba(124, 92, 255, 0.15);
+  color: #7C5CFF;
+}
+
+.phaseTag[data-tag="GEO"] {
+  background: rgba(255, 183, 0, 0.15);
+  color: #FFB800;
+}
+
+.slideTabs {
+  display: flex;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 10px;
+  padding: 3px;
+  margin-bottom: 8px;
+  margin-left: 12px;
+  margin-right: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: opacity 0.2s ease;
+}
+
+.slideTab {
+  flex: 1;
+  padding: 7px 0;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.6);
+  background: transparent;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+  letter-spacing: 0.3px;
+}
+
+.slideTab:hover {
+  color: #FFFFFF;
+}
+
+.slideTab.active {
+  background: rgba(255, 255, 255, 0.15); /* Clean medium-grey pill matching active menu items */
+  color: #FFFFFF;
+  box-shadow: none;
+}
+
+.divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
+  margin: 8px 12px 20px 12px;
+  transition: margin 0.2s ease;
+}
+
+.upgradeCard {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 18px;
+  margin-top: auto;
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+.upgradeHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.upgradeIconWrapper {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.upgradeIcon {
+  color: var(--primary-blue);
+}
+
+.upgradeTitle {
+  color: #FFFFFF;
+  font-size: 14.5px;
+  font-weight: 600;
+}
+
+.upgradeText {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 12px;
+  line-height: 1.5;
+  font-weight: 300;
+}
+
+.upgradeButton {
+  background: var(--primary-blue);
+  color: #FFFFFF;
+  font-size: 14.5px;
+  font-weight: 500;
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+  transition: all 0.2s ease;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+.upgradeButton:hover {
+  box-shadow: 0 4px 16px rgba(217, 107, 67, 0.25);
+  background: var(--primary-blue-hover);
+}
+
+.profileCard {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  margin-top: 12px;
+}
+
+.collapseBtn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 14.5px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.5);
+  transition: all 0.15s ease;
+  text-align: left;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.collapseBtn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #FFFFFF;
+}
+
+/* Collapsed (Minimized) State overrides */
+.sidebar.minimized {
+  width: 76px;
+  padding: 24px 16px;
+}
+
+.sidebar.minimized .label {
+  display: none !important;
+}
+
+.sidebar.minimized .brand {
+  justify-content: flex-start;
+  padding: 0 12px;
+}
+
+.sidebar.minimized .brandName {
+  display: none !important;
+}
+
+.sidebar.minimized .searchBar {
+  padding: 12px 12px;
+  justify-content: flex-start;
+  background: transparent;
+  border-color: transparent;
+  margin-bottom: 20px;
+}
+
+.sidebar.minimized .searchShortcut {
+  display: none !important;
+}
+
+.sidebar.minimized .searchText {
+  display: none !important;
+}
+
+.sidebar.minimized .slideTabs {
+  display: none !important;
+}
+
+.sidebar.minimized .sectionTitle {
+  display: none !important;
+}
+
+.sidebar.minimized .divider {
+  margin: 8px 12px 12px 12px;
+}
+
+.sidebar.minimized .itemButton {
+  justify-content: flex-start;
+  padding: 12px 12px;
+}
+
+.sidebar.minimized .lockIcon {
+  display: none !important;
+}
+
+.sidebar.minimized .phaseTag {
+  display: none !important;
+}
+
+.sidebar.minimized .upgradeCard {
+  display: none !important;
+}
+
+.sidebar.minimized .profileCard {
+  padding-top: 12px;
+}
+
+.sidebar.minimized .collapseBtn {
+  justify-content: flex-start;
+  padding: 12px 12px;
+}
+
+@media (max-height: 700px) {
+  .sidebar {
+    padding: 16px 12px;
+  }
+  .brand {
+    margin-bottom: 16px;
+  }
+  .itemButton {
+    padding: 8px 10px;
+  }
+  .upgradeCard {
+    padding: 14px;
+  }
+}
+
+@media (max-width: 992px) {
+  .sidebar {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 60px !important;
+    border-right: none !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 0 16px !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    overflow-y: visible !important;
+    z-index: 1000 !important;
+  }
+
+  .brand {
+    margin-bottom: 0 !important;
+    padding: 0 !important;
+    width: auto !important;
+  }
+
+  .brandCollapseBtn {
+    display: flex !important;
+    background: rgba(255, 255, 255, 0.06) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: #FFFFFF !important;
+    padding: 8px !important;
+    border-radius: 8px !important;
+    cursor: pointer;
+    transition: all 0.15s ease !important;
+  }
+
+  .brandCollapseBtn:hover {
+    background: rgba(255, 255, 255, 0.12) !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+  }
+
+  .sidebar.mobileOpen .nav {
+    display: flex !important;
+    position: fixed !important;
+    top: 60px !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: calc(100vh - 60px) !important;
+    background: #111315 !important;
+    flex-direction: column !important;
+    padding: 24px !important;
+    overflow-y: auto !important;
+    z-index: 999 !important;
+    animation: sidebarSlideDown 0.2s ease-out;
+  }
+
+  .nav {
+    display: none !important;
+  }
+
+  .searchBar {
+    display: none !important;
+  }
+
+
+
+  .profileCard {
+    display: none !important;
+  }
+
+  .collapseBtn {
+    display: none !important;
+  }
+}
+
+@keyframes sidebarSlideDown {
+  from {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

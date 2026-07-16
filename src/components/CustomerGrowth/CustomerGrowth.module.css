@@ -1,0 +1,204 @@
+.container {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.titleArea {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-dark);
+  letter-spacing: -0.2px;
+}
+
+.subtitle {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--grey-text);
+}
+
+.dropdown {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid var(--border-color);
+  background: #FFFFFF;
+  color: var(--grey-dark);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  transition: all var(--transition-fast);
+}
+
+.dropdown:hover {
+  border-color: var(--grey-text);
+  color: var(--text-dark);
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.bubbleWrapper {
+  flex: 1;
+  max-width: 170px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.svg {
+  display: block;
+}
+
+/* Translucent bubble stack matching mockup */
+.bubbleUS {
+  fill: var(--primary-blue);
+  transition: transform var(--transition-fast), filter var(--transition-fast);
+  cursor: pointer;
+}
+
+.bubbleDE {
+  fill: #3E8BE6;
+  opacity: 0.9;
+  transition: transform var(--transition-fast);
+  cursor: pointer;
+}
+
+.bubbleAU {
+  fill: #66A5ED;
+  opacity: 0.8;
+  transition: transform var(--transition-fast);
+  cursor: pointer;
+}
+
+.bubbleFR {
+  fill: #8EBAF2;
+  opacity: 0.7;
+  transition: transform var(--transition-fast);
+  cursor: pointer;
+}
+
+/* Hover effects */
+.bubbleUS:hover, .bubbleDE:hover, .bubbleAU:hover, .bubbleFR:hover {
+  transform: scale(1.04);
+  filter: brightness(1.05);
+}
+
+.bubbleTextLarge {
+  fill: #FFFFFF;
+  font-size: 11px;
+  font-weight: 800;
+  text-anchor: middle;
+  pointer-events: none;
+}
+
+.bubbleText {
+  fill: #FFFFFF;
+  font-size: 9px;
+  font-weight: 800;
+  text-anchor: middle;
+  pointer-events: none;
+}
+
+/* Country Progress List */
+.list {
+  flex: 1.3;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.listItem {
+  width: 100%;
+}
+
+.countryInfo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.flag {
+  font-size: 16px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.nameRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+}
+
+.countryName {
+  font-weight: 700;
+  color: var(--grey-dark);
+}
+
+.countryValue {
+  font-weight: 800;
+  color: var(--text-dark);
+}
+
+.progressTrack {
+  width: 100%;
+  height: 6px;
+  background: var(--grey-light);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progressBar {
+  height: 100%;
+  background: var(--primary-blue);
+  border-radius: 3px;
+  transition: width 1s ease-out;
+}
+
+@media (max-width: 1200px) and (min-width: 992px) {
+  .content {
+    flex-direction: column;
+    gap: 16px;
+  }
+  .bubbleWrapper {
+    max-width: 140px;
+  }
+}
+
+@media (max-width: 576px) {
+  .content {
+    flex-direction: column;
+    gap: 16px;
+  }
+}

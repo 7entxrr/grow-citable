@@ -1,0 +1,213 @@
+.container {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.titleArea {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-dark);
+  letter-spacing: -0.3px;
+}
+
+.subtitle {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--grey-text);
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.legend {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--grey-dark);
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.dotSeen {
+  background: #D5D7E2;
+}
+
+.dotSales {
+  background: var(--primary-blue);
+}
+
+.dropdown {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--border-color);
+  background: #FFFFFF;
+  color: var(--text-dark);
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  transition: border var(--transition-fast), background var(--transition-fast);
+}
+
+.dropdown:hover {
+  border-color: var(--grey-text);
+  background: var(--grey-light);
+}
+
+.chartWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.gridLine {
+  stroke: var(--border-color);
+  stroke-width: 1;
+}
+
+.yLabel {
+  font-size: 11px;
+  font-weight: 700;
+  fill: var(--grey-text);
+  text-anchor: end;
+}
+
+.xLabel {
+  font-size: 11px;
+  font-weight: 700;
+  fill: var(--grey-text);
+  text-anchor: middle;
+  transition: fill var(--transition-fast);
+}
+
+.xLabelActive {
+  fill: var(--text-dark);
+}
+
+.barSeen {
+  fill: #D5D7E2;
+  transition: fill var(--transition-fast), opacity var(--transition-fast);
+}
+
+.barSales {
+  fill: var(--primary-blue);
+  transition: fill var(--transition-fast), opacity var(--transition-fast);
+}
+
+.barSeen.barHovered {
+  fill: #B8BAC8;
+}
+
+.barSales.barHovered {
+  fill: var(--primary-blue-hover);
+}
+
+.hitbox {
+  cursor: pointer;
+}
+
+/* Tooltip Overlay Styling */
+.tooltip {
+  position: absolute;
+  background: #181922;
+  border-radius: 12px;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+  pointer-events: none;
+  z-index: 10;
+  animation: fadeIn 0.15s ease-out;
+}
+
+.tooltipItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.tooltipDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.tooltipDotSeen {
+  background: #8E91A5;
+}
+
+.tooltipDotSales {
+  background: var(--primary-blue);
+}
+
+.tooltipValue {
+  color: #FFFFFF;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.tooltipArrow {
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid #181922;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -90%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -100%);
+  }
+}

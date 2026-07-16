@@ -1,0 +1,9 @@
+- `[x]` Build backend simulation model endpoint `/api/answer-engine-sim`
+- `[x]` Implement strict DeepSeek API key check, returning validation error if unconfigured
+- `[x]` Check each engine's key individually (OPENAI_API_KEY, PERPLEXITY_API_KEY, GEMINI_API_KEY, ANTHROPIC_API_KEY) and return specific failed statuses
+- `[x]` Update front-end page-9 to conditionally render engine error warnings if keys are unconfigured
+- `[x]` Build new GEO Tool: AI Source Credibility Auditor (`phase-18` and `/api/source-credibility`)
+- `[x]` Build new GEO Tool: GVO Voice Search Auditor (`phase-20` and `/api/gvo-auditor`)
+- `[x]` Implement token balance indicator on the right-hand side of the Dashboard nav row
+- `[x]` Upgrade token balance styles: larger gold font, larger token icon, and improved padding contrast
+- `[x]` Clean up checklist and verify compilation build succeeds (npm run build)

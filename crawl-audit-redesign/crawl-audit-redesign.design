@@ -1,0 +1,33 @@
+{
+  "data": [
+    {
+      "id": "page-crawl-audit",
+      "title": "Crawl Audit",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1783810000000,
+      "devMetadata": {
+        "htmlSrc": "pages/crawl-audit.html",
+        "interactions": []
+      },
+      "canvasData": {
+        "x": 0,
+        "y": 0,
+        "group": 0
+      }
+    }
+  ],
+  "config": {
+    "autoLayout": true,
+    "deviceType": "desktop",
+    "projectName": "Crawl Audit Redesign",
+    "designLibrary": {
+      "name": "Apple",
+      "id": "dl_builtin_apple",
+      "version": null,
+      "scope": "built-in-global",
+      "path": "c:\\Users\\hp\\.trae\\design_libraries\\dl_builtin_apple",
+      "versionSource": "selected-context"
+    }
+  }
+}

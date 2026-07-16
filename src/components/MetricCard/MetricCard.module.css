@@ -1,0 +1,134 @@
+.card {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  position: relative;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.iconWrapper {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon {
+  stroke-width: 2.2px;
+}
+
+.badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 6px 10px;
+  border-radius: 20px;
+  letter-spacing: -0.2px;
+}
+
+/* Variant: Default (White background) */
+.default {
+  background: var(--bg-card);
+}
+
+.default .iconWrapper {
+  background: var(--grey-light);
+  color: var(--primary-blue);
+}
+
+.default .title {
+  color: var(--grey-text);
+}
+
+.default .value {
+  color: var(--text-dark);
+}
+
+.default .badgeText {
+  color: var(--grey-text);
+}
+
+/* Variant: Primary (Royal Blue background) */
+.primary {
+  background: var(--primary-blue);
+  color: #FFFFFF;
+  box-shadow: 0 12px 30px rgba(75, 97, 236, 0.25);
+}
+
+.primary .iconWrapper {
+  background: rgba(255, 255, 255, 0.15);
+  color: #FFFFFF;
+}
+
+.primary .title {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.primary .value {
+  color: #FFFFFF;
+}
+
+.primary .badgeText {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Badge colors */
+.positive {
+  background: var(--success-green-bg);
+  color: var(--success-green-text);
+}
+
+.primary .positive {
+  background: rgba(46, 196, 182, 0.25);
+  color: #2EC4B6;
+  background: #E6F9F6; /* Let's keep it highly legible as in the mockup */
+  color: #0F9F90;
+}
+
+.negative {
+  background: var(--danger-red-bg);
+  color: var(--danger-red-text);
+}
+
+/* Body content styling */
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.title {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: -0.1px;
+}
+
+.value {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  line-height: 1.1;
+}
+
+.badgeText {
+  font-size: 11px;
+  font-weight: 500;
+  margin-top: 4px;
+}

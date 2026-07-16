@@ -1,0 +1,5 @@
+- [x] Pricing page renders prices immediately from `staticPrices` without loading state
+- [x] Month/Year interval toggle works instantly without API call
+- [x] `/api/prices` route is removed
+- [x] TypeScript compiles without errors
+- [x] Paddle SDK still initializes for checkout flow
