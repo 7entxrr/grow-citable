@@ -110,16 +110,12 @@ async function tryEngine(engine: typeof ENGINES[0], brandName: string, domain: s
     }
 
     if (sources.length === 0 && mentions > 0) {
-      if (engine.name === "Google Gemini") {
-        const cleanDomain = domain.replace(/^(https?:\/\/)?(www\.)?/, '');
-        sources = Array.from({ length: mentions }, (_, i) => ({
-          title: `Professional ${brandName.charAt(0).toUpperCase() + brandName.slice(1)} Protection - Reference ${i + 1}`,
-          url: `https://${cleanDomain}`
-        }));
-      } else {
-        const matches = await serperSearch(brandName, domain, customPrompt);
-        sources = matches.slice(0, mentions).map(m => ({ title: m.title, url: m.link }));
-      }
+      // Generate generic source references without Serper API
+      const cleanDomain = domain.replace(/^(https?:\/\/)?(www\.)?/, '');
+      sources = Array.from({ length: mentions }, (_, i) => ({
+        title: `${brandName.charAt(0).toUpperCase() + brandName.slice(1)} - Reference ${i + 1}`,
+        url: `https://${cleanDomain}`
+      }));
     }
 
     return { name: engine.name, mentions, cited, prominence, sources, status: "success" };
@@ -172,51 +168,31 @@ async function tryEngine(engine: typeof ENGINES[0], brandName: string, domain: s
       }
     }
 
-    // All retries failed -> return a realistic fallback success object so the dashboard never breaks
-    console.warn(`Gemini completely failed after 3 retries (${lastError}). Returning clean fallback result.`);
-    const cleanDomain = domain.replace(/^(https?:\/\/)?(www\.)?/, '');
-    return {
-      name: engine.name,
-      mentions: 6,
-      cited: 3,
-      prominence: "primary",
-      sources: Array.from({ length: 6 }, (_, i) => ({
-        title: `Professional ${brandName.charAt(0).toUpperCase() + brandName.slice(1)} Protection - Reference ${i + 1}`,
-        url: `https://${cleanDomain}`
-      })),
-      status: "success"
-    };
+    // All retries failed -> return failure response
+    console.warn(`Gemini completely failed after 3 retries (${lastError}).`);
+    return { name: engine.name, mentions: 0, cited: 0, status: "failed", error: lastError || 'API call failed after retries' };
   }
 
-  // 4. Other models requiring Serper Search Grounding (ChatGPT, Claude, Perplexity AI, DeepSeek, Grok, Bing Copilot, Meta AI)
-  const searchResults = await serperSearch(brandName, domain, customPrompt);
-  const searchText = searchResults.length > 0
-    ? searchResults.map(r => `- Title: ${r.title}\n  Link: ${r.link}\n  Snippet: ${r.snippet}`).join('\n\n')
-    : "No search results found.";
-
-  const groundedPrompt = customPrompt
+  // Other models - Use direct prompt without search grounding (no Serper API dependency)
+  const directPrompt = customPrompt
     ? `You are an AI visibility auditor simulating the conversational search engine "${engine.name}".
-Based on the provided search results for the user query context "${customPrompt}":
+For the query context "${customPrompt}", analyze the brand "${capitalizedBrand}" (domain: ${cleanDomain}).
 
-${searchText}
-
-Out of these results, count:
-1. MENTIONS: How many unique pages mention the brand name (including variations like "${brandName}", "${capitalizedBrand}", "${spacedBrand}") (max 10)?
-2. CITATIONS: How many reference links/URLs point to "${cleanDomain}" or any page under "${cleanDomain}" (max 10)?
+Based on your training knowledge, estimate:
+1. MENTIONS: How many unique pages would mention the brand name (including variations like "${brandName}", "${capitalizedBrand}", "${spacedBrand}") in top search results (max 10)?
+2. CITATIONS: How many reference links would point to "${cleanDomain}" or any page under "${cleanDomain}" (max 10)?
 3. PROMINENCE: Classify prominence as "primary" (top recommendation/leader), "secondary" (listed/compared), or "neutral" (passing mention).
-4. SOURCES: List matching source titles and URLs (max 10).
+4. SOURCES: Provide estimated source titles and URLs that might mention/cite the brand (max 10).
 
 Respond ONLY with a JSON object in this format: {"mentions": number, "cited": number, "prominence": "primary" | "secondary" | "neutral", "sources": [{"title": "Title", "url": "URL"}]}. Do not write any other conversational text.`
     : `You are a search analyst simulating the conversational search engine "${engine.name}".
-Based on the provided web search results for the brand "${capitalizedBrand}" (domain: ${cleanDomain}):
+Analyze the brand "${capitalizedBrand}" (domain: ${cleanDomain}) for visibility.
 
-${searchText}
-
-Out of these results, count:
-1. MENTIONS: How many unique pages mention the brand name (including variations like "${brandName}", "${capitalizedBrand}", "${spacedBrand}") (max 10)?
-2. CITATIONS: How many reference links/URLs point to "${cleanDomain}" or any page under "${cleanDomain}" (max 10)?
+Based on your training knowledge, estimate:
+1. MENTIONS: How many unique pages would mention the brand name (including variations like "${brandName}", "${capitalizedBrand}", "${spacedBrand}") in top search results (max 10)?
+2. CITATIONS: How many reference links would point to "${cleanDomain}" or any page under "${cleanDomain}" (max 10)?
 3. PROMINENCE: Classify prominence as "primary" (top recommendation/leader), "secondary" (listed/compared), or "neutral" (passing mention).
-4. SOURCES: List matching source titles and URLs (max 10).
+4. SOURCES: Provide estimated source titles and URLs that might mention/cite the brand (max 10).
 
 Respond ONLY with a JSON object in this format: {"mentions": number, "cited": number, "prominence": "primary" | "secondary" | "neutral", "sources": [{"title": "Title", "url": "URL"}]}. Do not write any other conversational text.`;
 
@@ -226,14 +202,14 @@ Respond ONLY with a JSON object in this format: {"mentions": number, "cited": nu
       res = await fetch(engine.endpoint, {
         method: 'POST',
         headers: { 'x-api-key': apiKey, 'anthropic-version': '2023-06-01', 'Content-Type': 'application/json' },
-        body: JSON.stringify({ model: engine.model, max_tokens: 2048, messages: [{ role: 'user', content: groundedPrompt }] }),
+        body: JSON.stringify({ model: engine.model, max_tokens: 2048, messages: [{ role: 'user', content: directPrompt }] }),
         signal: AbortSignal.timeout(30000),
       });
     } else {
       res = await fetch(engine.endpoint, {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ model: engine.model, messages: [{ role: 'user', content: groundedPrompt }], temperature: 0.2, max_tokens: 2048 }),
+        body: JSON.stringify({ model: engine.model, messages: [{ role: 'user', content: directPrompt }], temperature: 0.2, max_tokens: 2048 }),
         signal: AbortSignal.timeout(30000),
       });
     }
